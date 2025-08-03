@@ -38,10 +38,10 @@ export function InteractiveSkillsSection() {
       </div>
 
       {/* Content overlay */}
-      <div className="relative z-10 w-full">
+      <div className="relative flex flex-col gap-16 z-10 w-full">
         {/* Section header */}
         <motion.div
-          className="text-center mb-20 w-full"
+          className="text-center flex flex-col gap-11 mb-20 w-full"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -60,7 +60,7 @@ export function InteractiveSkillsSection() {
             </span>
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-300 leading-relaxed w-full text-center max-w-4xl mx-auto px-8"
+            className="text-xl text-gray-300 leading-relaxed text-center max-w-4xl mx-auto relative left-[320px]"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}

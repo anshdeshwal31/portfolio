@@ -79,51 +79,50 @@ export function HolographicProjectsSection() {
       >
         {/* Section header */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-24 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-5xl lg:text-6xl font-light text-white mb-6"
+            className="text-4xl lg:text-5xl font-light text-white mb-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             viewport={{ once: true }}
           >
             Featured{' '}
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Creations
+            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+              Projects
             </span>
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Explore my holographic project gallery. Each creation represents a fusion of 
-            cutting-edge technology and creative vision, pushing the boundaries of what's possible.
+            A showcase of digital experiences crafted with precision, innovation, and attention to detail.
           </motion.p>
         </motion.div>
 
         {/* Project showcase */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 mb-20">
+        <div className="max-w-6xl mx-auto space-y-12">
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
-              className={`relative group ${project.featured ? 'lg:col-span-2' : ''}`}
+              className="relative group"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-white/5 to-white/2 backdrop-blur-sm border border-white/10 rounded-3xl p-8 lg:p-12 relative overflow-hidden">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 lg:p-10 relative overflow-hidden hover:bg-white/8 hover:border-white/20 transition-all duration-300">
                 {/* Status badge */}
                 <div className="absolute top-6 right-6">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  <span className={`px-3 py-1.5 rounded-full text-xs font-medium ${
                     project.status === 'Live' 
                       ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
                       : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
@@ -133,76 +132,58 @@ export function HolographicProjectsSection() {
                 </div>
 
                 {/* Project content */}
-                <div className={`grid ${project.featured ? 'lg:grid-cols-2 gap-12' : ''} items-center`}>
-                  <div>
-                    <div className="flex items-center gap-4 mb-4">
-                      <h3 className="text-2xl lg:text-3xl font-semibold text-white">
+                <div className="space-y-6">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-2">
+                      <h3 className="text-2xl lg:text-3xl font-light text-white">
                         {project.title}
                       </h3>
-                      <span className="text-sm text-gray-400">{project.year}</span>
+                      <p className="text-blue-400 font-medium">{project.category}</p>
                     </div>
-                    
-                    <p className="text-cyan-400 font-medium mb-4">{project.category}</p>
-                    
-                    <p className="text-gray-300 leading-relaxed mb-8">
-                      {project.description}
-                    </p>
+                    <span className="text-sm text-gray-400 mt-1">{project.year}</span>
+                  </div>
+                  
+                  <p className="text-gray-300 leading-relaxed max-w-4xl">
+                    {project.description}
+                  </p>
 
-                    {/* Tech stack */}
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1 bg-blue-600/20 border border-blue-500/30 rounded-full text-sm text-blue-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-4">
-                      <motion.a
-                        href={project.link}
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full text-white font-medium"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-cursor="view"
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 bg-white/10 border border-white/20 rounded-full text-sm text-white/80"
                       >
-                        View Live
-                        <ArrowUpRight className="w-4 h-4" />
-                      </motion.a>
-                      
-                      <motion.a
-                        href={project.github}
-                        className="inline-flex items-center gap-2 px-6 py-3 border border-white/20 rounded-full text-white font-medium hover:border-white/40 hover:bg-white/5 transition-all duration-300"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        data-cursor="pointer"
-                      >
-                        <Github className="w-4 h-4" />
-                        Code
-                      </motion.a>
-                    </div>
+                        {tech}
+                      </span>
+                    ))}
                   </div>
 
-                  {/* Project visual for featured */}
-                  {project.featured && (
-                    <div className="relative">
-                      <div className="aspect-video bg-gradient-to-br from-blue-600/20 to-purple-600/20 rounded-2xl border border-white/10 overflow-hidden">
-                        <div className="w-full h-full flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl mb-4 mx-auto animate-pulse" />
-                            <p className="text-white/60 text-sm">Interactive Preview</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* Actions */}
+                  <div className="flex gap-4 pt-2">
+                    <motion.a
+                      href={project.link}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      data-cursor="view"
+                    >
+                      View Live
+                      <ArrowUpRight className="w-4 h-4" />
+                    </motion.a>
+                    
+                    <motion.a
+                      href={project.github}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 border border-white/30 rounded-full text-white font-medium hover:border-white/50 hover:bg-white/5 transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      data-cursor="pointer"
+                    >
+                      <Github className="w-4 h-4" />
+                      Code
+                    </motion.a>
+                  </div>
                 </div>
-
-                {/* Hover glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
               </div>
             </motion.div>
           ))}
@@ -210,14 +191,14 @@ export function HolographicProjectsSection() {
 
         {/* View all projects CTA */}
         <motion.div
-          className="text-center"
+          className="text-center mt-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
           viewport={{ once: true }}
         >
           <motion.button
-            className="inline-flex items-center gap-2 px-8 py-4 border border-white/20 rounded-full text-white font-medium hover:border-white/40 hover:bg-white/5 transition-all duration-300"
+            className="inline-flex items-center gap-2 px-8 py-3 border border-white/20 rounded-full text-white font-medium hover:border-white/40 hover:bg-white/5 transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             data-cursor="pointer"
