@@ -38,17 +38,17 @@ export function InteractiveSkillsSection() {
       </div>
 
       {/* Content overlay */}
-      <div className="relative z-10 max-w-7xl mx-auto px-8 lg:px-16">
+      <div className="relative z-10 w-full">
         {/* Section header */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-20 w-full"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-5xl lg:text-6xl font-light text-white mb-6"
+            className="text-5xl lg:text-6xl font-light text-white mb-6 w-full text-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
@@ -60,7 +60,7 @@ export function InteractiveSkillsSection() {
             </span>
           </motion.h2>
           <motion.p
-            className="text-xl text-gray-300 leading-relaxed max-w-4xl mx-auto"
+            className="text-xl text-gray-300 leading-relaxed w-full text-center max-w-4xl mx-auto px-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
@@ -73,7 +73,7 @@ export function InteractiveSkillsSection() {
 
         {/* Simple skills grid - centered and properly spaced */}
         <motion.div
-          className="flex justify-center"
+          className="flex justify-center w-full px-8"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
@@ -104,13 +104,13 @@ export function InteractiveSkillsSection() {
 
         {/* Call to action */}
         <motion.div
-          className="text-center mt-20"
+          className="text-center mt-20 w-full"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.8 }}
           viewport={{ once: true }}
         >
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 mb-6 w-full text-center">
             Interested in working together? Let's create something extraordinary.
           </p>
           <motion.button
