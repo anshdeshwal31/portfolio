@@ -120,7 +120,7 @@ export function InteractiveSkillsSection() {
           viewport={{ once: true }}
         >
           <p className="text-gray-400 mb-6 w-full text-center">
-            Interested in working together? Let's create something extraordinary.
+            Interested in working together? Let&apos;s create something extraordinary.
           </p>
           <motion.button
             className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white font-medium hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300"

@@ -16,7 +16,6 @@ const FloatingActionButton = dynamic(() => import("@/components/ui/floating-acti
 const EtherealHeroSection = dynamic(() => import("@/components/sections/ethereal-hero-section").then(mod => ({ default: mod.EtherealHeroSection })), { ssr: false })
 const InteractiveSkillsSection = dynamic(() => import("@/components/sections/interactive-skills-section").then(mod => ({ default: mod.InteractiveSkillsSection })), { ssr: false })
 const HolographicProjectsSection = dynamic(() => import("@/components/sections/holographic-projects-section").then(mod => ({ default: mod.HolographicProjectsSection })), { ssr: false })
-const GenerativeAboutSection = dynamic(() => import("@/components/sections/generative-about-section").then(mod => ({ default: mod.GenerativeAboutSection })), { ssr: false })
 const ImmersiveContactSection = dynamic(() => import("@/components/sections/immersive-contact-section").then(mod => ({ default: mod.ImmersiveContactSection })), { ssr: false })
 
 function PortfolioContent() {

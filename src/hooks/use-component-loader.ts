@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { useLoading } from '@/contexts/loading-context'
 
-export function useComponentLoader(componentId: string, additionalDeps: any[] = []) {
+export function useComponentLoader(componentId: string, additionalDeps: unknown[] = []) {
   const { registerComponent, markComponentLoaded } = useLoading()
   const hasLoaded = useRef(false)
 
@@ -35,6 +35,7 @@ export function useComponentLoader(componentId: string, additionalDeps: any[] = 
 
       return () => clearTimeout(timer)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [componentId, markComponentLoaded, ...additionalDeps])
 
   return {

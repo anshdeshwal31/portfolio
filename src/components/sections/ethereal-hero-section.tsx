@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowDown, Github, Linkedin, Mail, Download, Sparkles } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Sparkles } from "lucide-react"
 import dynamic from 'next/dynamic'
 import { useRef, useState } from 'react'
 import { useComponentLoader } from '@/hooks/use-component-loader'
@@ -15,7 +15,7 @@ export function EtherealHeroSection() {
   useComponentLoader('hero-section')
   
   const containerRef = useRef(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const [, setMouse] = useState({ x: 0, y: 0 })
   
   const { scrollYProgress } = useScroll({
     target: containerRef,

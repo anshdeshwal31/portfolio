@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from 'react'
-import { Mail, MessageCircle, Send, MapPin, Phone, Calendar, CheckCircle, AlertCircle } from 'lucide-react'
+import { Mail, MessageCircle, Send, MapPin, Phone } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { sendContactEmail, validateContactForm, type ContactFormData } from '@/lib/email'
 import { Toast, type ToastType } from '@/components/ui/toast'
@@ -16,7 +16,7 @@ export function ImmersiveContactSection() {
   useComponentLoader('contact-section')
   
   const sectionRef = useRef(null)
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
+  const [, setMouse] = useState({ x: 0, y: 0 })
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -171,7 +171,7 @@ export function ImmersiveContactSection() {
             transition={{ duration: 1, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Let's Create{' '}
+            Let&apos;s Create{' '}
             <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
               Together
             </span>
@@ -183,7 +183,7 @@ export function ImmersiveContactSection() {
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Ready to transform your vision into reality? Let's start a conversation 
+            Ready to transform your vision into reality? Let&apos;s start a conversation 
             and explore the possibilities together.
           </motion.p>
         </motion.div>
@@ -344,7 +344,7 @@ export function ImmersiveContactSection() {
             <div className="mb-10">
               <h3 className="text-2xl lg:text-3xl font-semibold text-white mb-6">Get in Touch</h3>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Choose your preferred way to connect. I'm always excited to discuss 
+                Choose your preferred way to connect. I&apos;m always excited to discuss 
                 new opportunities and innovative projects.
               </p>
             </div>

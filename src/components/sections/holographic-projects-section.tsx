@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from 'react'
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react'
+import { Github, ArrowUpRight } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useComponentLoader } from '@/hooks/use-component-loader'

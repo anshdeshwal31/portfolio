@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react'
 
 interface LoadingContextType {
   loadingProgress: number
@@ -142,14 +142,17 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     return () => clearTimeout(failsafeTimer)
   }, [registeredComponents])
 
+  const contextValue = useMemo(() => ({
+    isLoading,
+    loadingProgress,
+    loadingStatus,
+    registerComponent,
+    markComponentLoaded,
+    registeredComponents: Array.from(registeredComponents)
+  }), [isLoading, loadingProgress, loadingStatus, registerComponent, markComponentLoaded, registeredComponents])
+
   return (
-    <LoadingContext.Provider value={{
-      loadingProgress,
-      isLoading,
-      registerComponent,
-      markComponentLoaded,
-      loadingStatus
-    }}>
+    <LoadingContext.Provider value={contextValue}>
       {children}
     </LoadingContext.Provider>
   )

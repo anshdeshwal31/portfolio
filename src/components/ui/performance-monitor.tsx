@@ -27,6 +27,32 @@ export function PerformanceMonitor() {
   useEffect(() => {
     let frameCount = 0
     let lastTime = performance.now()
+    
+    const calculateFPS = () => {
+      frameCount++
+      const currentTime = performance.now()
+      
+      if (currentTime - lastTime >= 1000) {
+        setMetrics(prev => ({
+          ...prev,
+          fps: Math.round((frameCount * 1000) / (currentTime - lastTime))
+        }))
+        frameCount = 0
+        lastTime = currentTime
+      }
+      
+      animationFrameRef.current = requestAnimationFrame(calculateFPS)
+    }
+    
+    const updateMemory = () => {
+      if ('memory' in performance) {
+        const memoryInfo = (performance as { memory: { usedJSHeapSize: number; totalJSHeapSize: number } }).memory
+        setMetrics(prev => ({
+          ...prev,
+          memoryUsage: Math.round(memoryInfo.usedJSHeapSize / 1024 / 1024)
+        }))
+      }
+    }
 
     const measurePerformance = () => {
       const currentTime = performance.now()
@@ -39,26 +65,15 @@ export function PerformanceMonitor() {
         frameTimeRef.current.shift()
       }
 
-      frameCount++
-
       // Calculate FPS every second
       if (currentTime - lastTime >= 1000) {
-        const fps = Math.round((frameCount * 1000) / (currentTime - lastTime))
         const avgFrameTime = frameTimeRef.current.reduce((a, b) => a + b, 0) / frameTimeRef.current.length
         
-        // Get memory usage if available
-        let memoryUsage: number | undefined
-        if ('memory' in performance) {
-          const memory = (performance as any).memory
-          memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024)
-        }
-
-        setMetrics({
-          fps,
+        setMetrics(prev => ({
+          ...prev,
           frameTime: Math.round(avgFrameTime * 100) / 100,
-          memoryUsage,
-          isHighPerformance: fps > 50 && avgFrameTime < 20
-        })
+          isHighPerformance: prev.fps > 50 && avgFrameTime < 20
+        }))
 
         frameCount = 0
         lastTime = currentTime
@@ -68,6 +83,8 @@ export function PerformanceMonitor() {
     }
 
     animationFrameRef.current = requestAnimationFrame(measurePerformance)
+    calculateFPS()
+    updateMemory()
 
     // Show metrics in development mode
     const isDev = process.env.NODE_ENV === 'development'

@@ -2,88 +2,49 @@
 
 import { useRef, useMemo, useState } from 'react'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
-import { Points, PointMaterial, Sphere, Environment, Float, Trail } from '@react-three/drei'
+import { Points, PointMaterial,  Environment, Float} from '@react-three/drei'
 import * as THREE from 'three'
 import { motion } from 'framer-motion'
 
 interface EtherealParticlesProps {
   count?: number
-  mouse?: { x: number; y: number }
+  mouse: { x: number; y: number }
 }
 
 function EtherealParticles({ count = 5000, mouse }: EtherealParticlesProps) {
-  const ref = useRef<THREE.Points>(null!)
+  const meshRef = useRef<THREE.Points>(null!)
   
-  const [positions, colors] = useMemo(() => {
+  const particlesPosition = useMemo(() => {
     const positions = new Float32Array(count * 3)
-    const colors = new Float32Array(count * 3)
     
     for (let i = 0; i < count; i++) {
-      // Create layered particle distribution for richer background
-      const layer = Math.floor(i / (count / 4))
-      let radius, distribution
-      
-      if (layer === 0) {
-        // Dense inner layer
-        radius = Math.random() * 6 + 2
-        distribution = 1.0
-      } else if (layer === 1) {
-        // Medium layer
-        radius = Math.random() * 12 + 6
-        distribution = 0.8
-      } else if (layer === 2) {
-        // Outer layer
-        radius = Math.random() * 20 + 12
-        distribution = 0.6
-      } else {
-        // Far background layer for depth
-        radius = Math.random() * 35 + 20
-        distribution = 0.3
-      }
-      
-      const theta = Math.random() * Math.PI * 2
-      const phi = Math.random() * Math.PI
-      
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta) * distribution
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta) * distribution
-      positions[i * 3 + 2] = radius * Math.cos(phi) * distribution
-      
-      // Enhanced ethereal color palette - all white stars for consistent cosmos theme
-      const colorChoice = Math.random()
-      const intensity = 0.8 + Math.random() * 0.2
-      
-      // All particles are white stars
-      colors[i * 3] = 0.9 + Math.random() * 0.1     // Red
-      colors[i * 3 + 1] = 0.9 + Math.random() * 0.1 // Green  
-      colors[i * 3 + 2] = 0.9 + Math.random() * 0.1 // Blue
-      
-      colors[i * 3] *= intensity
-      colors[i * 3 + 1] *= intensity
-      colors[i * 3 + 2] *= intensity
+      positions[i * 3] = (Math.random() - 0.5) * 50
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 50  
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50
     }
     
-    return [positions, colors]
+    return positions
   }, [count])
 
   useFrame((state) => {
-    if (ref.current) {
+    if (meshRef.current) {
       const time = state.clock.getElapsedTime()
       
       // Enhanced rotation with mouse influence
       const mouseInfluence = mouse ? (mouse.x * 0.1 + mouse.y * 0.1) : 0
-      ref.current.rotation.x = Math.sin(time * 0.1) * 0.3 + mouseInfluence * 0.15
-      ref.current.rotation.y = Math.cos(time * 0.15) * 0.4 + mouseInfluence * 0.25
-      ref.current.rotation.z = Math.sin(time * 0.08) * 0.2
+      meshRef.current.rotation.x = Math.sin(time * 0.1) * 0.3 + mouseInfluence * 0.15
+      meshRef.current.rotation.y = Math.cos(time * 0.15) * 0.4 + mouseInfluence * 0.25
+      meshRef.current.rotation.z = Math.sin(time * 0.08) * 0.2
       
       // Dynamic breathing effect
       const breathScale = 1 + Math.sin(time * 0.5) * 0.15
       const pulseScale = 1 + Math.sin(time * 2) * 0.05
-      ref.current.scale.setScalar(breathScale * pulseScale)
+      meshRef.current.scale.setScalar(breathScale * pulseScale)
     }
   })
 
   return (
-    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+    <Points ref={meshRef} positions={particlesPosition} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
         vertexColors
@@ -96,35 +57,35 @@ function EtherealParticles({ count = 5000, mouse }: EtherealParticlesProps) {
   )
 }
 
-function CentralEnergyOrb() {
-  const meshRef = useRef<THREE.Mesh>(null!)
+// function CentralEnergyOrb() {
+//   const meshRef = useRef<THREE.Mesh>(null!)
 
-  useFrame((state) => {
-    if (meshRef.current) {
-      const time = state.clock.getElapsedTime()
-      // Only Y-axis rotation for asteroid-like movement
-      meshRef.current.rotation.y = time * 0.15
-    }
-  })
+//   useFrame((state) => {
+//     if (meshRef.current) {
+//       const time = state.clock.getElapsedTime()
+//       // Only Y-axis rotation for asteroid-like movement
+//       meshRef.current.rotation.y = time * 0.15
+//     }
+//   })
 
-  return (
-    <>
-      {/* Asteroid-like purple sphere with Y-axis rotation only - highly visible */}
-      <mesh ref={meshRef}>
-        <sphereGeometry args={[5.5, 8, 6]} />
-        <meshStandardMaterial
-          color="#8b5cf6"
-          emissive="#7c3aed"
-          emissiveIntensity={0.6}
-          transparent
-          opacity={0.95}
-          roughness={0.9}
-          metalness={0.2}
-        />
-      </mesh>
-    </>
-  )
-}
+//   return (
+//     <>
+//       {/* Asteroid-like purple sphere with Y-axis rotation only - highly visible */}
+//       <mesh ref={meshRef}>
+//         <sphereGeometry args={[5.5, 8, 6]} />
+//         <meshStandardMaterial
+//           color="#8b5cf6"
+//           emissive="#7c3aed"
+//           emissiveIntensity={0.6}
+//           transparent
+//           opacity={0.95}
+//           roughness={0.9}
+//           metalness={0.2}
+//         />
+//       </mesh>
+//     </>
+//   )
+// }
 
 function BackgroundAsteroid({hasAsteroid}:{hasAsteroid:boolean}) {
   const meshRef = useRef<THREE.Mesh>(null!)
@@ -475,135 +436,135 @@ function DeepSpaceParallax() {
   )
 }
 
-function FloatingOrbs() {
-  const orbs = useMemo(() => [
-    { position: [8, 3, -5], color: "#06b6d4", size: 0.6, speed: 1.2 },
-    { position: [-6, -2, 4], color: "#8b5cf6", size: 0.8, speed: 0.8 },
-    { position: [5, -4, 8], color: "#4f46e5", size: 0.4, speed: 1.5 },
-    { position: [-8, 5, -3], color: "#06b6d4", size: 0.5, speed: 1.0 },
-    { position: [3, 7, -8], color: "#a855f7", size: 0.7, speed: 0.9 },
-    { position: [-4, -6, 6], color: "#0ea5e9", size: 0.3, speed: 1.8 },
-    { position: [10, -1, 2], color: "#7c3aed", size: 0.9, speed: 0.7 },
-    { position: [-3, 8, -6], color: "#0891b2", size: 0.4, speed: 1.3 }
-  ], [])
+// function FloatingOrbs() {
+//   const orbs = useMemo(() => [
+//     { position: [8, 3, -5], color: "#06b6d4", size: 0.6, speed: 1.2 },
+//     { position: [-6, -2, 4], color: "#8b5cf6", size: 0.8, speed: 0.8 },
+//     { position: [5, -4, 8], color: "#4f46e5", size: 0.4, speed: 1.5 },
+//     { position: [-8, 5, -3], color: "#06b6d4", size: 0.5, speed: 1.0 },
+//     { position: [3, 7, -8], color: "#a855f7", size: 0.7, speed: 0.9 },
+//     { position: [-4, -6, 6], color: "#0ea5e9", size: 0.3, speed: 1.8 },
+//     { position: [10, -1, 2], color: "#7c3aed", size: 0.9, speed: 0.7 },
+//     { position: [-3, 8, -6], color: "#0891b2", size: 0.4, speed: 1.3 }
+//   ], [])
 
-  return (
-    <>
-      {orbs.map((orb, index) => (
-        <Float
-          key={index}
-          speed={orb.speed}
-          rotationIntensity={0.4 + index * 0.1}
-          floatIntensity={0.3 + index * 0.05}
-          position={orb.position as [number, number, number]}
-        >
-          <mesh>
-            <sphereGeometry args={[orb.size, 16, 16]} />
-            <meshStandardMaterial
-              color={orb.color}
-              emissive={orb.color}
-              emissiveIntensity={0.4}
-              transparent
-              opacity={0.7}
-              metalness={0.3}
-              roughness={0.4}
-            />
-          </mesh>
-        </Float>
-      ))}
-    </>
-  )
-}
+//   return (
+//     <>
+//       {orbs.map((orb, index) => (
+//         <Float
+//           key={index}
+//           speed={orb.speed}
+//           rotationIntensity={0.4 + index * 0.1}
+//           floatIntensity={0.3 + index * 0.05}
+//           position={orb.position as [number, number, number]}
+//         >
+//           <mesh>
+//             <sphereGeometry args={[orb.size, 16, 16]} />
+//             <meshStandardMaterial
+//               color={orb.color}
+//               emissive={orb.color}
+//               emissiveIntensity={0.4}
+//               transparent
+//               opacity={0.7}
+//               metalness={0.3}
+//               roughness={0.4}
+//             />
+//           </mesh>
+//         </Float>
+//       ))}
+//     </>
+//   )
+// }
 
-function GeometricRings() {
-  const ringGroupRef = useRef<THREE.Group>(null!)
+// function GeometricRings() {
+//   const ringGroupRef = useRef<THREE.Group>(null!)
 
-  useFrame((state) => {
-    if (ringGroupRef.current) {
-      const time = state.clock.getElapsedTime()
-      ringGroupRef.current.rotation.x = time * 0.1
-      ringGroupRef.current.rotation.y = time * 0.15
-      ringGroupRef.current.rotation.z = time * 0.05
-    }
-  })
+//   useFrame((state) => {
+//     if (ringGroupRef.current) {
+//       const time = state.clock.getElapsedTime()
+//       ringGroupRef.current.rotation.x = time * 0.1
+//       ringGroupRef.current.rotation.y = time * 0.15
+//       ringGroupRef.current.rotation.z = time * 0.05
+//     }
+//   })
 
-  return (
-    <group ref={ringGroupRef}>
-      {/* Outer ring */}
-      <mesh rotation={[Math.PI / 3, Math.PI / 4, 0]}>
-        <ringGeometry args={[12, 12.4, 64]} />
-        <meshBasicMaterial
-          color="#8b5cf6"
-          transparent
-          opacity={0.15}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+//   return (
+//     <group ref={ringGroupRef}>
+//       {/* Outer ring */}
+//       <mesh rotation={[Math.PI / 3, Math.PI / 4, 0]}>
+//         <ringGeometry args={[12, 12.4, 64]} />
+//         <meshBasicMaterial
+//           color="#8b5cf6"
+//           transparent
+//           opacity={0.15}
+//           side={THREE.DoubleSide}
+//         />
+//       </mesh>
       
-      {/* Middle ring */}
-      <mesh rotation={[Math.PI / 4, -Math.PI / 6, Math.PI / 3]}>
-        <ringGeometry args={[8, 8.3, 48]} />
-        <meshBasicMaterial
-          color="#4f46e5"
-          transparent
-          opacity={0.2}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
+//       {/* Middle ring */}
+//       <mesh rotation={[Math.PI / 4, -Math.PI / 6, Math.PI / 3]}>
+//         <ringGeometry args={[8, 8.3, 48]} />
+//         <meshBasicMaterial
+//           color="#4f46e5"
+//           transparent
+//           opacity={0.2}
+//           side={THREE.DoubleSide}
+//         />
+//       </mesh>
       
-      {/* Inner ring */}
-      <mesh rotation={[Math.PI / 6, -Math.PI / 3, Math.PI / 4]}>
-        <ringGeometry args={[5, 5.2, 32]} />
-        <meshBasicMaterial
-          color="#06b6d4"
-          transparent
-          opacity={0.25}
-          side={THREE.DoubleSide}
-        />
-      </mesh>
-    </group>
-  )
-}
+//       {/* Inner ring */}
+//       <mesh rotation={[Math.PI / 6, -Math.PI / 3, Math.PI / 4]}>
+//         <ringGeometry args={[5, 5.2, 32]} />
+//         <meshBasicMaterial
+//           color="#06b6d4"
+//           transparent
+//           opacity={0.25}
+//           side={THREE.DoubleSide}
+//         />
+//       </mesh>
+//     </group>
+//   )
+// }
 
-function EnergyBeams() {
-  const beamGroupRef = useRef<THREE.Group>(null!)
+// function EnergyBeams() {
+//   const beamGroupRef = useRef<THREE.Group>(null!)
 
-  useFrame((state) => {
-    if (beamGroupRef.current) {
-      const time = state.clock.getElapsedTime()
-      beamGroupRef.current.rotation.y = time * 0.2
-    }
-  })
+//   useFrame((state) => {
+//     if (beamGroupRef.current) {
+//       const time = state.clock.getElapsedTime()
+//       beamGroupRef.current.rotation.y = time * 0.2
+//     }
+//   })
 
-  return (
-    <group ref={beamGroupRef}>
-      {Array.from({ length: 6 }, (_, i) => {
-        const angle = (i / 6) * Math.PI * 2
-        const radius = 15
-        return (
-          <mesh
-            key={i}
-            position={[
-              Math.cos(angle) * radius,
-              0,
-              Math.sin(angle) * radius
-            ]}
-            rotation={[0, angle, 0]}
-          >
-            <cylinderGeometry args={[0.02, 0.02, 30, 8]} />
-            <meshStandardMaterial
-              color="#4f46e5"
-              emissive="#4f46e5"
-              emissiveIntensity={0.3}
-              transparent
-              opacity={0.4}
-            />
-          </mesh>
-        )
-      })}
-    </group>
-  )
-}
+//   return (
+//     <group ref={beamGroupRef}>
+//       {Array.from({ length: 6 }, (_, i) => {
+//         const angle = (i / 6) * Math.PI * 2
+//         const radius = 15
+//         return (
+//           <mesh
+//             key={i}
+//             position={[
+//               Math.cos(angle) * radius,
+//               0,
+//               Math.sin(angle) * radius
+//             ]}
+//             rotation={[0, angle, 0]}
+//           >
+//             <cylinderGeometry args={[0.02, 0.02, 30, 8]} />
+//             <meshStandardMaterial
+//               color="#4f46e5"
+//               emissive="#4f46e5"
+//               emissiveIntensity={0.3}
+//               transparent
+//               opacity={0.4}
+//             />
+//           </mesh>
+//         )
+//       })}
+//     </group>
+//   )
+// }
 
 function CameraController({ mouse }: { mouse: { x: number; y: number } }) {
   const { camera } = useThree()
