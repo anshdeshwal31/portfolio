@@ -54,7 +54,7 @@ export function Navigation() {
               whileHover={{ scale: 1.05 }}
               data-cursor="pointer"
             >
-              AV
+              {/* AV */}
             </motion.div>
 
             {/* Desktop Navigation */}

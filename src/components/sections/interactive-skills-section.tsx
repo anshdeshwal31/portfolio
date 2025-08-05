@@ -43,14 +43,14 @@ export function InteractiveSkillsSection() {
       <div className="relative flex flex-col gap-16 z-10 w-full">
         {/* Section header */}
         <motion.div
-          className="text-center flex flex-col gap-11 mb-20 w-full"
+          className="text-center flex flex-col gap-11 mb-32 w-full"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-5xl lg:text-6xl font-light text-white mb-6 w-full text-center"
+            className="text-5xl lg:text-6xl font-light text-white mb-24 w-full text-center"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
@@ -61,8 +61,15 @@ export function InteractiveSkillsSection() {
               Arsenal
             </span>
           </motion.h2>
-          <motion.p
-            className="text-xl text-gray-300 leading-relaxed text-center max-w-4xl mx-auto relative left-[320px]"
+          {/* <motion.p
+            className="text-xl text-gray-300 leading-relaxed text-center max-w-4xl mx-auto absolute top-[80px] sm:left-[120px] md:left-[180px] lg:left-[240px] xl:left-[320px]"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            viewport={{ once: true }}
+          > */}
+          {/* <motion.p
+            className="text-xl text-gray-300 leading-relaxed text-center max-w-4xl mx-auto px-4"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
@@ -70,7 +77,7 @@ export function InteractiveSkillsSection() {
           >
             From frontend frameworks to backend architectures, database design to AI integration. 
             These are the tools and technologies I leverage to build scalable, modern applications.
-          </motion.p>
+          </motion.p> */}
         </motion.div>
 
         {/* Simple skills grid - centered and properly spaced */}

@@ -9,7 +9,7 @@ import { LoadingProvider, useLoading } from '@/contexts/loading-context'
 const PerformanceMonitor = dynamic(() => import("@/components/ui/performance-monitor").then(mod => ({ default: mod.PerformanceMonitor })), { ssr: false })
 const LoadingScreen = dynamic(() => import("@/components/ui/loading-screen").then(mod => ({ default: mod.LoadingScreen })), { ssr: false })
 const Navigation = dynamic(() => import("@/components/navigation").then(mod => ({ default: mod.Navigation })), { ssr: false })
-const CustomCursor = dynamic(() => import("@/components/ui/enhanced-custom-cursor").then(mod => ({ default: mod.EnhancedCustomCursor })), { ssr: false })
+const CustomCursor = dynamic(() => import("@/components/ui/custom-cursor").then(mod => ({ default: mod.CustomCursor })), { ssr: false })
 const FloatingActionButton = dynamic(() => import("@/components/ui/floating-action-button").then(mod => ({ default: mod.FloatingActionButton })), { ssr: false })
 
 // New premium 3D interactive sections

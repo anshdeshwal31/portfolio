@@ -25,7 +25,7 @@ export function ThemeToggle() {
         }}
         transition={{ duration: 0.2 }}
       >
-        <Moon className="h-4 w-4 text-neutral-800 dark:text-neutral-200" />
+        {/* <Moon className="h-4 w-4 text-neutral-800 dark:text-neutral-200" /> */}
       </motion.div>
       <motion.div
         className="absolute inset-0 flex items-center justify-center"
