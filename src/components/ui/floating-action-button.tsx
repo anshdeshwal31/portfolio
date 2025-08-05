@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { MessageCircle, Github, Linkedin, Mail, X } from "lucide-react"
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 const socialLinks = [
   {
@@ -26,6 +27,8 @@ const socialLinks = [
 ]
 
 export function FloatingActionButton() {
+  useComponentLoader('floating-button')
+  
   const [isOpen, setIsOpen] = useState(false)
 
   return (

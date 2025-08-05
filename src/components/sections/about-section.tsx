@@ -55,7 +55,7 @@ function AnshPhoto() {
       <div className="relative w-full h-full bg-gradient-to-br from-white/10 to-white/5 rounded-3xl border border-white/20 overflow-hidden backdrop-blur-sm">
         {/* Ansh's Photo */}
         <Image
-          src="/ansh-photo.jpg"
+          src="/ansh_photo.jpg"
           alt="Ansh Deshwal"
           fill
           className="object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"

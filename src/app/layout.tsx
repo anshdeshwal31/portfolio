@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ansh Deshwal - Digital Experience Architect",
-  description: "Crafting immersive digital experiences with modern web technologies, interactive 3D environments, and cutting-edge AI solutions.",
-  keywords: ["Full Stack Developer", "React", "Next.js", "Three.js", "Web Development", "3D Graphics", "AI"],
+  title: "Ansh Deshwal - Full-stack web developer",
+  description: "Crafting immersive digital experiences with modern web technologies and cutting-edge AI solutions.",
+  keywords: ["Full Stack Developer", "React", "Next.js",  "Web Development", "AI"],
   authors: [{ name: "Ansh Deshwal" }],
 };
 

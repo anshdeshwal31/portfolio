@@ -1,8 +1,11 @@
 "use client"
 
 import { motion, useScroll, useSpring } from "framer-motion"
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 export function ScrollProgress() {
+  useComponentLoader('scroll-progress')
+  
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

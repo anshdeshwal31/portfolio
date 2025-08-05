@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from 'react'
 import { User, Code, Lightbulb, Heart } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import Image from "next/image"
 
 const GenerativeMorphingForms = dynamic(() => import("../three/generative-morphing-forms").then(mod => ({ default: mod.GenerativeMorphingForms })), { 
   ssr: false 
@@ -51,8 +52,8 @@ export function GenerativeAboutSection() {
       <div className="relative z-10 max-w-7xl mx-auto px-8 lg:px-16">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center min-h-screen">
           {/* Left side - 3D space reserved for morphing forms */}
-          <div className="order-2 lg:order-1">
-            {/* This space is for the 3D background */}
+          <Image src='/ansh_photo_2.jpg' alt="ansh deshwal" width={600} height={500} className="relative left-10 bottom-16"/>
+          <div className="w-[600px] h-[500px] absolute bg-gradient-to-b from-transparent to-black via-black left-10 top-[250px] ">
           </div>
 
           {/* Right side - Content */}

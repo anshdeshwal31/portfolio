@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 interface PerformanceMetrics {
   fps: number
@@ -11,6 +12,8 @@ interface PerformanceMetrics {
 }
 
 export function PerformanceMonitor() {
+  useComponentLoader('performance-monitor')
+  
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
     fps: 60,
     frameTime: 16.67,

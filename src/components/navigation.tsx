@@ -4,16 +4,19 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import { useState } from "react"
 import { ThemeToggle } from "./ui/theme-toggle"
 import { Menu, X } from "lucide-react"
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 const navItems = [
   { name: "Home", href: "#hero" },
   { name: "Skills", href: "#skills" },
   { name: "Projects", href: "#projects" },
-  { name: "About", href: "#about" },
+  // { name: "About", href: "#about" },
   { name: "Contact", href: "#contact" },
 ]
 
 export function Navigation() {
+  useComponentLoader('navigation')
+  
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { scrollY } = useScroll()

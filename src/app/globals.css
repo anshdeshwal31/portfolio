@@ -31,7 +31,7 @@ body {
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: none;
+  cursor: auto;
   min-height: 100vh;
   /* Enhanced hardware acceleration for premium smooth animations */
   transform: translate3d(0, 0, 0);
@@ -41,8 +41,8 @@ body {
 }
 
 /* Premium cursor styles */
-.light body { cursor: none; }
-.dark body { cursor: none; }
+.light body { cursor: auto; }
+.dark body { cursor: auto; }
 
 /* Custom scrollbar with premium styling */
 ::-webkit-scrollbar {

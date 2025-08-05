@@ -2,20 +2,36 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef, useState } from 'react'
-import { Mail, MessageCircle, Send, MapPin, Phone, Calendar } from 'lucide-react'
+import { Mail, MessageCircle, Send, MapPin, Phone, Calendar, CheckCircle, AlertCircle } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { sendContactEmail, validateContactForm, type ContactFormData } from '@/lib/email'
+import { Toast, type ToastType } from '@/components/ui/toast'
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
-const ImmersiveContactEnvironment = dynamic(() => import("../three/immersive-contact-environment").then(mod => ({ default: mod.ImmersiveContactEnvironment })), { 
+const EtherealEnergyBackground = dynamic(() => import("../three/enhanced-ethereal-background").then(mod => ({ default: mod.EtherealEnergyBackground })), { 
   ssr: false 
 })
 
 export function ImmersiveContactSection() {
+  useComponentLoader('contact-section')
+  
   const sectionRef = useRef(null)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     subject: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState<string[]>([])
+  const [toast, setToast] = useState<{
+    isVisible: boolean
+    type: ToastType
+    message: string
+  }>({
+    isVisible: false,
+    type: 'success',
     message: ''
   })
   
@@ -35,74 +51,121 @@ export function ImmersiveContactSection() {
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    
+    // Clear errors when user starts typing
+    if (errors.length > 0) {
+      setErrors([])
+    }
+  }
+
+  const showToast = (type: ToastType, message: string) => {
+    setToast({
+      isVisible: true,
+      type,
+      message
     })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const hideToast = () => {
+    setToast(prev => ({ ...prev, isVisible: false }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    
+    // Validate form
+    const validationErrors = validateContactForm(formData)
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors)
+      showToast('error', validationErrors[0])
+      return
+    }
+
+    setIsSubmitting(true)
+    setErrors([])
+
+    try {
+      const result = await sendContactEmail(formData)
+      
+      if (result.success) {
+        showToast('success', result.message)
+        // Reset form on success
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        })
+      } else {
+        showToast('error', result.message)
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      showToast('error', 'An unexpected error occurred. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactMethods = [
     {
       icon: Mail,
       label: "Email",
-      value: "ansh@example.com", 
-      action: "mailto:ansh@example.com",
+      value: "anshdeshwal1234@gmail.com", 
+      action: "mailto:anshdeshwal1234@gmail.com",
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      action: "tel:+15551234567", 
+      value: "+91 9627660757",
+      action: "tel:+919627660757", 
       color: "from-green-500 to-emerald-500"
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "San Francisco, CA",
+      value: "Punjab,India",
       action: "#",
       color: "from-purple-500 to-pink-500"
-    },
-    {
-      icon: Calendar,
-      label: "Schedule Call",
-      value: "Book a meeting",
-      action: "#",
-      color: "from-orange-500 to-red-500"
     }
   ]
 
   return (
     <section 
       ref={sectionRef} 
-      className="relative min-h-screen bg-black py-32 overflow-hidden"
+      className="relative min-h-screen bg-black py-32 overflow-hidden flex flex-col items-center  justify-center"
       onMouseMove={handleMouseMove}
     >
-      {/* 3D Background */}
+      {/* Background like skills section - stars with white wireframe asteroid */}
       <div className="absolute inset-0">
-        <ImmersiveContactEnvironment mouse={mouse} className="w-full h-full" />
+        <motion.div 
+          className="w-full h-full"
+          style={{ y: y }}
+        >
+          <EtherealEnergyBackground section="contact" className="w-full h-full" />
+        </motion.div>
       </div>
 
       <motion.div 
-        className="relative z-10 max-w-7xl mx-auto px-8 lg:px-16"
+        className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16 flex flex-col gap-10 items-center"
         style={{ y }}
       >
-        {/* Section header */}
+        {/* Section header - centered and properly spaced */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-24 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-5xl lg:text-6xl font-light text-white mb-6"
+            className="text-5xl lg:text-6xl font-light text-white mb-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
@@ -125,8 +188,8 @@ export function ImmersiveContactSection() {
           </motion.p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-          {/* Contact form */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start max-w-6xl mx-auto">
+          {/* Contact form - improved spacing and alignment */}
           <motion.div
             className="order-2 lg:order-1"
             initial={{ opacity: 0, x: -50 }}
@@ -134,27 +197,32 @@ export function ImmersiveContactSection() {
             transition={{ duration: 1.2 }}
             viewport={{ once: true }}
           >
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-12">
-              <h3 className="text-3xl font-semibold text-white mb-8">Send a Message</h3>
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-10" style={{padding:"32px 16px ",display:"flex" ,flexDirection:"column" , gap:"18px"}} >
+              <h3 className="text-2xl lg:text-3xl font-semibold text-white mb-8">Send a Message</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-8 flex flex-col gap-4">
+                <div className="grid sm:grid-cols-2 gap-8">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <label className="block text-white mb-2 font-medium">Name</label>
+                    <label className="block text-white mb-3 font-medium">Name</label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-all duration-300"
+                      className={`w-full px-5 py-4 bg-white/5 border rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300 ${
+                        errors.some(error => error.toLowerCase().includes('name'))
+                          ? 'border-red-500 focus:border-red-400'
+                          : 'border-white/20 focus:border-blue-500'
+                      }`}
                       placeholder="Your name"
                       data-cursor="text"
                       required
+                      style={{padding:"3px 7px"}}
                     />
                   </motion.div>
                   
@@ -164,16 +232,21 @@ export function ImmersiveContactSection() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     viewport={{ once: true }}
                   >
-                    <label className="block text-white mb-2 font-medium">Email</label>
+                    <label className="block text-white mb-3 font-medium">Email</label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-all duration-300"
+                      className={`w-full px-5 py-4 bg-white/5 border rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300 ${
+                        errors.some(error => error.toLowerCase().includes('email'))
+                          ? 'border-red-500 focus:border-red-400'
+                          : 'border-white/20 focus:border-blue-500'
+                      }`}
                       placeholder="your.email@example.com"
                       data-cursor="text"
                       required
+                      style={{padding:"3px 7px"}}
                     />
                   </motion.div>
                 </div>
@@ -184,16 +257,22 @@ export function ImmersiveContactSection() {
                   transition={{ duration: 0.6, delay: 0.3 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-white mb-2 font-medium">Subject</label>
+                  <label className="block text-white mb-3 font-medium">Subject</label>
                   <input
                     type="text"
                     name="subject"
                     value={formData.subject}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-all duration-300"
+                    className={`w-full px-5 py-4 bg-white/5 border rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300 ${
+                      errors.some(error => error.toLowerCase().includes('subject'))
+                        ? 'border-red-500 focus:border-red-400'
+                        : 'border-white/20 focus:border-blue-500'
+                    }`}
                     placeholder="Project collaboration"
                     data-cursor="text"
                     required
+                    style={{padding:"3px 7px"}}
+
                   />
                 </motion.div>
 
@@ -203,32 +282,51 @@ export function ImmersiveContactSection() {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   viewport={{ once: true }}
                 >
-                  <label className="block text-white mb-2 font-medium">Message</label>
+                  <label className="block text-white mb-3 font-medium">Message</label>
                   <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleInputChange}
-                    rows={5}
-                    className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none transition-all duration-300 resize-none"
+                    rows={6}
+                    className={`w-full px-5 py-4 bg-white/5 border rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300 resize-none ${
+                      errors.some(error => error.toLowerCase().includes('message'))
+                        ? 'border-red-500 focus:border-red-400'
+                        : 'border-white/20 focus:border-blue-500'
+                    }`}
                     placeholder="Tell me about your project..."
                     data-cursor="text"
                     required
+                    style={{padding:"3px 7px"}}
                   />
                 </motion.div>
 
                 <motion.button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white font-semibold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-2xl hover:shadow-blue-500/25 transition-all duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  disabled={isSubmitting}
+                  className={`w-full bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white font-semibold py-5 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 ${
+                    isSubmitting 
+                      ? 'opacity-70 cursor-not-allowed' 
+                      : 'hover:shadow-2xl hover:shadow-blue-500/25'
+                  }`}
+                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
                   viewport={{ once: true }}
                   data-cursor="pointer"
                 >
-                  Send Message
-                  <Send className="w-5 h-5" />
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Sending Message...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="w-5 h-5" />
+                    </>
+                  )}
                 </motion.button>
               </form>
             </div>
@@ -236,21 +334,22 @@ export function ImmersiveContactSection() {
 
           {/* Contact methods */}
           <motion.div
-            className="space-y-8 order-1 lg:order-2"
+            className="order-1 lg:order-2 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-10 flex flex-col gap-8"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2 }}
             viewport={{ once: true }}
+            style={{padding:"26px 16px"}}
           >
-            <div>
-              <h3 className="text-3xl font-semibold text-white mb-6">Get in Touch</h3>
-              <p className="text-gray-300 leading-relaxed">
+            <div className="mb-10">
+              <h3 className="text-2xl lg:text-3xl font-semibold text-white mb-6">Get in Touch</h3>
+              <p className="text-gray-300 leading-relaxed text-lg">
                 Choose your preferred way to connect. I'm always excited to discuss 
                 new opportunities and innovative projects.
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6 mb-10 flex flex-col gap-7">
               {contactMethods.map((method, index) => (
                 <motion.a
                   key={method.label}
@@ -283,6 +382,7 @@ export function ImmersiveContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               viewport={{ once: true }}
+              style={{padding:"4px 8px"}}
             >
               <div className="flex items-center gap-3 mb-3">
                 <MessageCircle className="w-5 h-5 text-blue-400" />
@@ -299,6 +399,14 @@ export function ImmersiveContactSection() {
 
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+
+      {/* Toast Notification */}
+      <Toast
+        type={toast.type}
+        message={toast.message}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
     </section>
   )
 }

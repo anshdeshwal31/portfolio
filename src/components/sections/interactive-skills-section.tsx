@@ -3,12 +3,15 @@
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from 'react'
 import dynamic from 'next/dynamic'
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 const EtherealEnergyBackground = dynamic(() => import("../three/enhanced-ethereal-background").then(mod => ({ default: mod.EtherealEnergyBackground })), { 
   ssr: false 
 })
 
 export function InteractiveSkillsSection() {
+  useComponentLoader('skills-section')
+  
   const sectionRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -21,8 +24,7 @@ export function InteractiveSkillsSection() {
   const skills = [
     "React", "Next.js", "TypeScript", "Framer Motion",
     "Node.js", "Python", "PostgreSQL",  "REST APIs",
-    "AWS","JavaScript", "Tailwind CSS", "Material-UI", "Figma",
-    "Git", "MongoDB", "Firebase", "Cloudflare"
+    "Shadcn","Express.js", "Tailwind CSS", "Langchain", "ChromaDB","Git", "MongoDB", "NeonDB", "C++"
   ]
 
   return (
@@ -54,9 +56,9 @@ export function InteractiveSkillsSection() {
             transition={{ duration: 1, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Expertise in{' '}
+            Technical{' '}
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Motion
+              Arsenal
             </span>
           </motion.h2>
           <motion.p
@@ -66,8 +68,8 @@ export function InteractiveSkillsSection() {
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Watch my skills orbit in real-time. Each sphere represents years of dedication, 
-            countless projects, and a passion for pushing technological boundaries.
+            From frontend frameworks to backend architectures, database design to AI integration. 
+            These are the tools and technologies I leverage to build scalable, modern applications.
           </motion.p>
         </motion.div>
 

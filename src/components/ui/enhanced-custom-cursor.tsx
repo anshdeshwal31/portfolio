@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 interface CursorState {
   x: number
@@ -12,6 +13,8 @@ interface CursorState {
 }
 
 export function EnhancedCustomCursor() {
+  useComponentLoader('cursor')
+  
   const [cursor, setCursor] = useState<CursorState>({
     x: 0,
     y: 0,

@@ -126,7 +126,7 @@ function CentralEnergyOrb() {
   )
 }
 
-function BackgroundAsteroid() {
+function BackgroundAsteroid({hasAsteroid}:{hasAsteroid:boolean}) {
   const meshRef = useRef<THREE.Mesh>(null!)
   const radiationRef = useRef<THREE.Points>(null!)
 
@@ -167,7 +167,7 @@ function BackgroundAsteroid() {
   return (
     <group position={[0, 0, -5]}>
       {/* Background asteroid - white wireframe outline */}
-      <mesh ref={meshRef}>
+      {hasAsteroid&&<mesh ref={meshRef}>
         <sphereGeometry args={[6, 8, 6]} />
         <meshStandardMaterial
           color="#ffffff"
@@ -177,7 +177,7 @@ function BackgroundAsteroid() {
           opacity={0.6}
           wireframe
         />
-      </mesh>
+      </mesh>}
       
       {/* White radiation particles */}
       <Points ref={radiationRef} positions={radiationParticles} stride={3} frustumCulled={false}>
@@ -670,8 +670,8 @@ export function EtherealEnergyBackground({ section, className = "" }: EtherealEn
         
         {/* All background elements */}
         <EtherealParticles mouse={mouse} />
-        {section === "hero" && <CentralEnergyOrb />}
-        {section === "skills" && <BackgroundAsteroid />}
+        {/* {section === "hero" && <CentralEnergyOrb />} */}
+        {section === "skills"? <BackgroundAsteroid hasAsteroid={true}/>:<BackgroundAsteroid hasAsteroid={false}/>}
         
         {/* New cosmos effects */}
         <AsteroidBelt />

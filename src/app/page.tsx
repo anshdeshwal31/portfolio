@@ -3,12 +3,13 @@
 import dynamic from 'next/dynamic'
 import { Suspense } from 'react'
 import { motion } from 'framer-motion'
+import { LoadingProvider, useLoading } from '@/contexts/loading-context'
 
 // Dynamically import premium components
 const PerformanceMonitor = dynamic(() => import("@/components/ui/performance-monitor").then(mod => ({ default: mod.PerformanceMonitor })), { ssr: false })
 const LoadingScreen = dynamic(() => import("@/components/ui/loading-screen").then(mod => ({ default: mod.LoadingScreen })), { ssr: false })
 const Navigation = dynamic(() => import("@/components/navigation").then(mod => ({ default: mod.Navigation })), { ssr: false })
-const LuxuryCustomCursor = dynamic(() => import("@/components/ui/luxury-custom-cursor").then(mod => ({ default: mod.LuxuryCustomCursor })), { ssr: false })
+const CustomCursor = dynamic(() => import("@/components/ui/enhanced-custom-cursor").then(mod => ({ default: mod.EnhancedCustomCursor })), { ssr: false })
 const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress").then(mod => ({ default: mod.ScrollProgress })), { ssr: false })
 const FloatingActionButton = dynamic(() => import("@/components/ui/floating-action-button").then(mod => ({ default: mod.FloatingActionButton })), { ssr: false })
 
@@ -19,38 +20,48 @@ const HolographicProjectsSection = dynamic(() => import("@/components/sections/h
 const GenerativeAboutSection = dynamic(() => import("@/components/sections/generative-about-section").then(mod => ({ default: mod.GenerativeAboutSection })), { ssr: false })
 const ImmersiveContactSection = dynamic(() => import("@/components/sections/immersive-contact-section").then(mod => ({ default: mod.ImmersiveContactSection })), { ssr: false })
 
-export default function Home() {
+function PortfolioContent() {
+  const { isLoading } = useLoading()
+
   return (
     <div className="relative overflow-hidden min-h-screen bg-black">
       <Suspense fallback={<div className="fixed inset-0 bg-black z-50" />}>
         <LoadingScreen />
-        <LuxuryCustomCursor />
-        <ScrollProgress />
-        <Navigation />
-        <FloatingActionButton />
-        <PerformanceMonitor />
         
-        {/* Premium 3D Interactive Sections */}
-        <main className="relative">
-          {/* Hero Section - Ethereal Energy Background */}
-          <section id="hero" className="relative">
-            <EtherealHeroSection />
-          </section>
+        {/* Only show main content when not loading */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isLoading ? 0 : 1 }}
+          transition={{ duration: 0.8, delay: isLoading ? 0 : 0.5 }}
+          style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+        >
+          <CustomCursor />
+          <ScrollProgress />
+          <Navigation />
+          <FloatingActionButton />
+          <PerformanceMonitor />
           
-          {/* Skills Section - Orbital 3D Visualization */}
-          <section id="skills" className="relative">
-            <InteractiveSkillsSection />
-          </section>
-          
-          {/* Projects Section - Holographic Project Cards */}
-          <section id="projects" className="relative">
-            <HolographicProjectsSection />
-          </section>
-          
-          {/* About Section - Generative Morphing Forms */}
-          <section id="about" className="relative">
+          {/* Premium 3D Interactive Sections */}
+          <main className="relative">
+            {/* Hero Section - Ethereal Energy Background */}
+            <section id="hero" className="relative">
+              <EtherealHeroSection />
+            </section>
+            
+            {/* Skills Section - Orbital 3D Visualization */}
+            <section id="skills" className="relative">
+              <InteractiveSkillsSection />
+            </section>
+            
+            {/* Projects Section - Holographic Project Cards */}
+            <section id="projects" className="relative">
+              <HolographicProjectsSection />
+            </section>
+            
+            {/* About Section - Generative Morphing Forms */}
+          {/* <section id="about" className="relative">
             <GenerativeAboutSection />
-          </section>
+          </section> */}
           
           {/* Contact Section - Immersive Particle Environment */}
           <section id="contact" className="relative">
@@ -59,7 +70,7 @@ export default function Home() {
         </main>
         
         {/* Premium Footer with subtle animations */}
-        <footer className="relative bg-gradient-to-b from-gray-950 to-black border-t border-white/10 py-16 px-8 lg:px-16 z-10">
+        {/* <footer className="relative bg-gradient-to-b from-gray-950 to-black border-t border-white/10 py-16 px-8 lg:px-16 z-10">
           <motion.div 
             className="max-w-7xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
@@ -103,8 +114,17 @@ export default function Home() {
               </div>
             </div>
           </motion.div>
-        </footer>
+        </footer> */}
+        </motion.div>
       </Suspense>
     </div>
+  )
+}
+
+export default function Home() {
+  return (
+    <LoadingProvider>
+      <PortfolioContent />
+    </LoadingProvider>
   )
 }

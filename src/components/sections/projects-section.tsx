@@ -60,25 +60,25 @@ function ProjectCard({ project, index }: { project: typeof projects[0], index: n
   return (
     <motion.div
       ref={cardRef}
-      className="mb-32 last:mb-0"
+      className="mb-0 last:mb-0 w-[60vw] max-w-5xl"
       style={{ opacity }}
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8, delay: index * 0.2 }}
       viewport={{ once: true, margin: "-100px" }}
     >
-      <div className="grid lg:grid-cols-12 gap-16 items-center max-w-7xl mx-auto">
+      <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center w-full">
         {/* Project Image */}
         <motion.div 
           className={`lg:col-span-7 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'}`}
           style={index % 2 === 0 ? { y } : {}}
         >
           <motion.div
-            className="relative group overflow-hidden rounded-3xl"
+            className="relative group overflow-hidden rounded-3xl w-full"
             whileHover={{ scale: 1.02 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="aspect-[4/3] bg-gradient-to-br from-white/5 to-white/10 border border-white/10 rounded-3xl overflow-hidden backdrop-blur-sm">
+            <div className="aspect-[4/3] bg-gradient-to-br from-white/5 to-white/10 border border-white/10 rounded-3xl overflow-hidden backdrop-blur-sm w-full max-w-md mx-auto lg:mx-0">
               <div className="w-full h-full flex items-center justify-center">
                 <motion.div 
                   className="text-6xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"
@@ -207,14 +207,14 @@ export function ProjectsSection() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          className="text-center mb-32"
+          className="text-center mb-48 space-y-5"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
           <motion.div
-            className="inline-block mb-6"
+            className="inline-block mb-6 "
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -237,7 +237,7 @@ export function ProjectsSection() {
         </motion.div>
 
         {/* Projects */}
-        <div className="space-y-0">
+        <div className="w-full flex flex-col gap-y-20 items-center ">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

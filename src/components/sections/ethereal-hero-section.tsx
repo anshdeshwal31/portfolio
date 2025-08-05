@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, Github, Linkedin, Mail, Download, Sparkles } from "lucide-react"
 import dynamic from 'next/dynamic'
 import { useRef, useState } from 'react'
+import { useComponentLoader } from '@/hooks/use-component-loader'
 
 // Dynamically import the enhanced ethereal background
 const EtherealEnergyBackground = dynamic(() => import("../three/enhanced-ethereal-background").then(mod => ({ default: mod.EtherealEnergyBackground })), { 
@@ -11,6 +12,8 @@ const EtherealEnergyBackground = dynamic(() => import("../three/enhanced-etherea
 })
 
 export function EtherealHeroSection() {
+  useComponentLoader('hero-section')
+  
   const containerRef = useRef(null)
   const [mouse, setMouse] = useState({ x: 0, y: 0 })
   
@@ -42,17 +45,22 @@ export function EtherealHeroSection() {
       onMouseMove={handleMouseMove}
     >
       {/* Ethereal 3D Background */}
-      <EtherealEnergyBackground />
+      <EtherealEnergyBackground section="hero" />
       
       {/* Content */}
       <motion.div 
-        className="relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16"
+        className="flex relative z-10 w-full max-w-7xl mx-auto px-8 lg:px-16 justify-between items-center"
         style={{ y, opacity }}
       >
+          <motion.div className="">
+            <motion.img initial={{opacity:0}} animate={{opacity:1}} transition={{duration:4,delay:1}} src="/ansh_photo_2.jpg" alt="ansh deshwal" className="w-[600px] " />
+            <div className="w-[600px] h-[550px] absolute bg-gradient-to-b from-transparent via-black/100 to-black top-[290px] border-white  ">
+            </div>
+          </motion.div>
         <div className="flex flex-col items-center justify-center min-h-screen py-32 text-center">
           {/* Main heading with staggered animation */}
           <motion.div
-            className="space-y-8 mb-12"
+            className="space-y-8 mb-18"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5, delay: 0.5 }}
@@ -75,7 +83,7 @@ export function EtherealHeroSection() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1.2, delay: 1.2 }}
             >
-              Digital Experience Architect crafting immersive worlds where{' '}
+              Full-stack web developer crafting web technologies where{' '}
               <span className="text-blue-400 font-medium">technology</span> meets{' '}
               <span className="text-purple-400 font-medium">artistry</span>
             </motion.p>
@@ -83,25 +91,26 @@ export function EtherealHeroSection() {
 
           {/* Interactive elements */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-6 mb-16"
+            className="flex flex-col sm:flex-row gap-6 mb-16 mt-6"
+            style={{marginTop:"15px", marginBottom:"15px"}}
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1.2, delay: 1.6 }}
           >
             <motion.button
-              className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-white font-medium transition-all duration-300 overflow-hidden"
+              className="relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full hover:cursor-pointer text-white font-medium transition-all duration-300 overflow-hidden"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              data-cursor="pointer"
+              // data-cursor="pointer"
             >
               <span className="relative z-10 flex items-center gap-2">
                 Explore My Work
                 <Sparkles className="w-4 h-4" />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              {/* <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-cyan-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" /> */}
             </motion.button>
             
-            <motion.button
+            {/* <motion.button
               className="group px-8 py-4 border border-white/20 rounded-full text-white font-medium transition-all duration-300 hover:border-white/40 hover:bg-white/5"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -111,7 +120,7 @@ export function EtherealHeroSection() {
                 Download CV
                 <Download className="w-4 h-4" />
               </span>
-            </motion.button>
+            </motion.button> */}
           </motion.div>
 
           {/* Social links */}
@@ -122,9 +131,9 @@ export function EtherealHeroSection() {
             transition={{ duration: 1.2, delay: 2.0 }}
           >
             {[
-              { icon: Github, href: "#", label: "GitHub" },
-              { icon: Linkedin, href: "#", label: "LinkedIn" },
-              { icon: Mail, href: "#", label: "Email" }
+              { icon: Github, href: "https://github.com/anshdeshwal31", label: "GitHub" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/ansh-deshwal-67ab992ab/", label: "LinkedIn" },
+              // { icon: Mail, href: "#", label: "Email" }
             ].map(({ icon: Icon, href, label }) => (
               <motion.a
                 key={label}
