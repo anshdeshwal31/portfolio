@@ -158,7 +158,7 @@ export function HolographicProjectsSection() {
                       <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black rounded-full font-medium text-sm"
                         style={{padding:"6px 6px"}}>
-                          View Live Site
+                          Vi ew Live Site
                           <ArrowUpRight className="w-4 h-4" />
                         </span>
                       </div>
