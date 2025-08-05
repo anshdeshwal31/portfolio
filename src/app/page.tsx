@@ -10,7 +10,6 @@ const PerformanceMonitor = dynamic(() => import("@/components/ui/performance-mon
 const LoadingScreen = dynamic(() => import("@/components/ui/loading-screen").then(mod => ({ default: mod.LoadingScreen })), { ssr: false })
 const Navigation = dynamic(() => import("@/components/navigation").then(mod => ({ default: mod.Navigation })), { ssr: false })
 const CustomCursor = dynamic(() => import("@/components/ui/enhanced-custom-cursor").then(mod => ({ default: mod.EnhancedCustomCursor })), { ssr: false })
-const ScrollProgress = dynamic(() => import("@/components/ui/scroll-progress").then(mod => ({ default: mod.ScrollProgress })), { ssr: false })
 const FloatingActionButton = dynamic(() => import("@/components/ui/floating-action-button").then(mod => ({ default: mod.FloatingActionButton })), { ssr: false })
 
 // New premium 3D interactive sections
@@ -36,7 +35,6 @@ function PortfolioContent() {
           style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
         >
           <CustomCursor />
-          <ScrollProgress />
           <Navigation />
           <FloatingActionButton />
           <PerformanceMonitor />

@@ -18,17 +18,46 @@ export function LoadingScreen() {
     }
   }, [isLoading, loadingProgress])
 
+  useEffect(() => {
+    // Prevent scrolling when loading screen is visible
+    if (showLoadingScreen) {
+      document.body.style.overflow = 'hidden'
+      document.body.style.height = '100vh'
+      document.documentElement.style.overflow = 'hidden'
+    } else {
+      // Restore scrolling when loading screen is hidden
+      document.body.style.overflow = 'auto'
+      document.body.style.height = 'auto'
+      document.documentElement.style.overflow = 'auto'
+    }
+
+    return () => {
+      // Cleanup: always restore scrolling
+      document.body.style.overflow = 'auto'
+      document.body.style.height = 'auto'
+      document.documentElement.style.overflow = 'auto'
+    }
+  }, [showLoadingScreen])
+
   return (
     <AnimatePresence>
       {showLoadingScreen && (
         <motion.div
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+          className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
+          style={{ 
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            zIndex: 9999
+          }}
         >
-          <div className="text-center max-w-md mx-auto px-8">
+          <div className="text-center flex flex-col justify-center items-center max-w-md mx-auto px-8 w-full">
             {/* Animated spinner */}
             <motion.div
               className="relative w-20 h-20 mx-auto mb-8"
