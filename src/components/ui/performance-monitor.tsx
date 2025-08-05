@@ -12,6 +12,11 @@ interface PerformanceMetrics {
 }
 
 export function PerformanceMonitor() {
+  // Only show in development
+  // if (process.env.NODE_ENV !== 'development') {
+  //   return null
+  // }
+  
   useComponentLoader('performance-monitor')
   
   const [metrics, setMetrics] = useState<PerformanceMetrics>({
