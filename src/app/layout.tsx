@@ -35,6 +35,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
       >
+        {/* Visible message if JavaScript is disabled or client bundles fail to load */}
+        <noscript>
+          <div style={{
+            position: 'fixed', inset: 0 as unknown as number, display: 'flex',
+            alignItems: 'center', justifyContent: 'center', background: 'black', color: 'white',
+            zIndex: 9999, padding: '1rem', textAlign: 'center'
+          }}>
+            This site is an interactive experience and requires JavaScript. If you’re seeing this screen after deployment,
+            it may indicate a hosting/CDN issue loading client assets. Please refresh, try a different network or browser,
+            or contact the site owner.
+          </div>
+        </noscript>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
           {children}
         </ThemeProvider>
