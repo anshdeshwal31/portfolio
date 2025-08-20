@@ -191,16 +191,15 @@ export function ImmersiveContactSection() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-start max-w-6xl mx-auto">
           {/* Contact form - improved spacing and alignment */}
           <motion.div
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 h-full flex flex-col"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2 }}
             viewport={{ once: true }}
           >
-            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-10" style={{padding:"32px 16px ",display:"flex" ,flexDirection:"column" , gap:"18px"}} >
-              <h3 className="text-2xl lg:text-3xl font-semibold text-white mb-8">Send a Message</h3>
-              
-              <form onSubmit={handleSubmit} className="space-y-8 flex flex-col gap-4">
+            <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl h-full flex flex-col justify-between" style={{padding:"32px 16px", margin:"0px 25px"}}>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 h-full">
+                <h3 className="text-2xl text-center lg:text-3xl font-semibold text-white mb-2">Send a Message</h3>
                 <div className="grid sm:grid-cols-2 gap-8">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -334,12 +333,12 @@ export function ImmersiveContactSection() {
 
           {/* Contact methods */}
           <motion.div
-            className="order-1 lg:order-2 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-10 flex flex-col gap-8"
+            className="order-1 mx-2 lg:order-2 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 rounded-3xl p-8 lg:p-10 flex flex-col gap-8 h-full"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2 }}
             viewport={{ once: true }}
-            style={{padding:"26px 16px"}}
+            style={{padding:"26px 16px", margin:"0px 25px"}}
           >
             <div className="mb-10">
               <h3 className="text-2xl lg:text-3xl font-semibold text-white mb-6">Get in Touch</h3>

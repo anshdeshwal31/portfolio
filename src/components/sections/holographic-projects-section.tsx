@@ -35,6 +35,31 @@ export function HolographicProjectsSection() {
       image: "/briefly-preview.png",
       featured: true
     },
+      {
+    title: "QueryForge",
+    category: "AI-Powered Document Q&A Platform",
+    description: "Full-Stack Development: Built a modern web application using Next.js and Tailwind CSS for the frontend, integrated with a Django RAG backend. QueryForge allows users to upload PDFs, Word docs, and more, transforming them into interactive, AI-powered knowledge bases. Features include Clerk authentication, animated UI components, and instant, grounded answers to user questions using advanced AI models.",
+    tech: [
+      "LangChain",
+      "FAISS",
+      "Next.js", 
+      "TypeScript", 
+      "React", 
+      "Tailwind CSS", 
+      "Django", 
+      "Python", 
+      "Clerk Auth", 
+      "Framer Motion", 
+      "Gemini API"
+    ],
+    status: "Live",
+    year: "2025",
+    link: "https://queryforge-frontend.onrender.com",
+    github: "https://github.com/anshdeshwal31/QueryForge",
+    image: "/queryForge-preview.png",
+    featured: true
+  }
+    ,
     {
       title: "Hospitrix",
       category: "Hospital Management System", 
@@ -97,7 +122,7 @@ export function HolographicProjectsSection() {
           {projects.map((project, index) => (
             <motion.div
             key={project.title}
-            className="relative group  w-[60vw] max-w-5xl"
+            className="relative group w-[92vw]  md:w-[65vw] sm:w-[75vw] max-w-5xl"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: index * 0.1 }}

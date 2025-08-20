@@ -103,7 +103,7 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       <motion.div
-        className="fixed inset-0 z-40 md:hidden"
+        className="fixed inset-0 z-40 md:hidden overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: isMobileMenuOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}
@@ -115,7 +115,7 @@ export function Navigation() {
         />
         
         <motion.div
-          className="absolute top-0 right-0 h-full w-80 bg-neutral-900 border-l border-neutral-800 p-6"
+          className="absolute top-0 right-0 h-full w-64 max-w-[80vw] bg-neutral-900 border-l border-neutral-800 p-6 overflow-hidden"
           initial={{ x: "100%" }}
           animate={{ x: isMobileMenuOpen ? 0 : "100%" }}
           transition={{ duration: 0.3, ease: "easeOut" }}
@@ -134,7 +134,7 @@ export function Navigation() {
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left text-lg text-neutral-300 hover:text-white transition-colors duration-200 py-2"
+                className="block w-full text-left text-lg text-neutral-300 hover:text-white transition-colors duration-200 py-2 truncate"
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ 
                   opacity: isMobileMenuOpen ? 1 : 0, 
